@@ -271,13 +271,7 @@ const AdminProducts = () => {
       setDeleteLoading(true);
       console.log("product_id", productId);
 
-      const response = await axios.delete(`http://localhost:3000/api/product/deleteProduct/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-
-          },
-        })
+      const response = await AxiosInstance.delete(`/product/deleteProduct/${productId}`,)
       if (response.data.success) {
         toast.success("Product Deleted Successfully")
         dispatch(removeFromCart(productId));

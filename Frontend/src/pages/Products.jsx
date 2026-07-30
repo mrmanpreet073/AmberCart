@@ -12,6 +12,7 @@ import { setProduct, setSelectedCategory } from '@/Redux/productSice.js';
 import { useNavigate } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { useSearchParams } from 'react-router-dom';
+import AxiosInstance from '@/Api/AxiosInstance.jsx';
 
 const LIMIT = 10;
 
@@ -60,7 +61,7 @@ const [searchParams] = useSearchParams();
     useEffect(() => {
         const fetchMeta = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/product/productMeta");
+                const res = await AxiosInstance.get("/product/productMeta");
                 if (res.data.success) {
                     setAllCategories(res.data.categories);
                     setAllBrands(res.data.brands);
@@ -85,7 +86,7 @@ const [searchParams] = useSearchParams();
             if (priceRange[1] < 999999) params.append("maxPrice", priceRange[1]);
             if (order) params.append("order", order);
 
-            const res = await axios.get(`http://localhost:3000/api/product/allProducts?${params}`);
+            const res = await AxiosInstance.get(`/product/allProducts?${params}`);
             if (res.data.success) {
                 setProducts(res.data.products);
                 setPagination(res.data.pagination);

@@ -36,7 +36,7 @@ const Cart = () => {
 
   const removeItem = async (productId) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/cart/delete",
+      const res = await AxiosInstance.post("/cart/delete",
         { productId },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       )
@@ -53,7 +53,7 @@ const Cart = () => {
 
   const fetchLatestCart = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/cart/", {
+      const res = await AxiosInstance.get("/cart/", {
         headers: { Authorization: `Bearer ${accessToken}` }
       })
       if (res.data.success) dispatch(setCart(res.data.cart))

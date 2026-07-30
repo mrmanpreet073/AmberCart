@@ -133,7 +133,7 @@ const Profile = () => {
         try {
             setLoading(true);
 
-            const response = await axios.post(
+            const response = await AxiosInstance.post(
                 "http://localhost:3000/api/orders/getUserOrders", {},
                 {
                     headers: {

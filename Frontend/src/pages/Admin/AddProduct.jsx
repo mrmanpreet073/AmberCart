@@ -1,3 +1,4 @@
+import AxiosInstance from "@/Api/AxiosInstance";
 import axios from "axios";
 import { Loader2, X } from "lucide-react";
 import React, { useState } from "react";
@@ -85,7 +86,7 @@ const AddProduct = () => {
   const addProductAxios = async (formData, reset) => {
     try {
       setLoading(true);
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         "/product/addProducts",
         formData,
        )

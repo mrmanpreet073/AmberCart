@@ -106,7 +106,7 @@ const Address = () => {
                 toast.error("Please Select The Address To Complete The Payment")
                 return;
             }
-            const { data } = await axios.post(`http://localhost:3000/api/orders/create-order`, {
+            const { data } = await AxiosInstance.post(`/orders/create-order`, {
                 products: cart?.items?.map(item => ({
                     productId: item.productId._id,
                     quantity: item.quantity
@@ -116,9 +116,7 @@ const Address = () => {
                 shipping,
                 amount: total,
                 currency: "INR"
-            }, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            })
+            }, )
 
             if (!data.success) return toast.error("Something went wrong")
             console.log("Razorpay data");
@@ -134,11 +132,9 @@ const Address = () => {
                 handler: async function (response) {  // This function is called when the payment is completed successfully.
                     // and response contains the payment details. like razorpay_payment_id, razorpay_order_id, razorpay_signature These are proof of payment.
                     try {
-                        const verifyRes = await axios.post('http://localhost:3000/api/orders/verify-payment',
+                        const verifyRes = await AxiosInstance.post('/orders/verify-payment',
                             response,
-                            {
-                                headers: { Authorization: `Bearer ${accessToken}` }
-                            }
+                            
                         )
                         if (verifyRes.data.success) {
                             console.log((verifyRes));
@@ -170,15 +166,13 @@ const Address = () => {
                     onDismiss: async function () { // This function is called when the user closes the Razorpay modal without completing the payment.
                         // Handle user closing the popup
                         try {
-                            await axios.post(
-                                `http://localhost:3000/api/orders/verify-payment`,
+                            await AxiosInstance.post(
+                                `/orders/verify-payment`,
                                 {
                                     razorpay_order_id: data.order.id,
                                     paymentFailed: true
                                 },
-                                {
-                                    headers: { Authorization: `Bearer ${accessToken}` }
-                                }
+                               
                             );
                             toast.error("Payment Cancelled or Failed");
                         } catch (error) {
@@ -200,15 +194,13 @@ const Address = () => {
 
             rzp.on('payment.failed', async function (response) { // This function is called when the payment fails. It receives a response object with details about the failure.
                 try {
-                    await axios.post(
-                        `http://localhost:3000/api/orders/verify-payment`,
+                    await AxiosInstance.post(
+                        `/orders/verify-payment`,
                         {
                             razorpay_order_id: data.order.id,
                             paymentFailed: true
                         },
-                        {
-                            headers: { Authorization: `Bearer ${accessToken}` }
-                        }
+                        
                     );
                     toast.error("Payment Cancelled or Failed");
                 } catch (error) {
