@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000
 // Allow requests from your React app
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite default port
+    origin: ["http://localhost:5173", "https://amber-cart.vercel.app"], // Vite default port and deployed URL
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
