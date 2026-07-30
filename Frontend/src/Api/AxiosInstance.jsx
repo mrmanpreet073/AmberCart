@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AxiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://ambercart.onrender.com/api",
   withCredentials: true, // sends the httpOnly refresh cookie automatically on every request
 });
 
