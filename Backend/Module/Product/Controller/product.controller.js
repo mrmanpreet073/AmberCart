@@ -60,7 +60,7 @@ export const addProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
     try {
-        console.log("category received →", req.query.category)
+        // console.log("category received →", req.query.category)
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
@@ -337,7 +337,7 @@ export const getProductById = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Get Product Error:", error);
+        // console.error("Get Product Error:", error);
 
         return res.status(500).json({
             success: false,

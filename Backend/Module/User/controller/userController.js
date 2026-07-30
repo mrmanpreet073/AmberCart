@@ -83,14 +83,15 @@ export const verify = async (req, res) => {
         try {
             decoded = jwt.verify(token, process.env.JWT_SECRET)
         } catch (error) {
+
             if (error.name === "TokenExpiredError") {
-                return res.status(400).json({
+                return res.status(401).json({
                     success: false,
-                    message: "Token Expired"
+                    message: "Token Expired .........."
                 })
             }
 
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
                 message: "Token Verification Failed"
             })
@@ -170,84 +171,90 @@ export const reVerify = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-
     try {
         const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
-                message: "All feilds are required"
-            })
+                message: "All fields are required"
+            });
         }
 
-        const existingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email });
 
         if (!existingUser) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
-                message: "User Not Existed"
-            })
+                message: "User does not exist"
+            });
         }
 
-        const isMatch = await bcrypt.compare(password, existingUser.password)
+        const isMatch = await bcrypt.compare(password, existingUser.password);
 
         if (!isMatch) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: "Invalid Credentials"
-            })
+            });
         }
 
         if (existingUser.isVerified === false) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
-                message: "Verify your account Before login"
-            })
+                message: "Verify your account before login"
+            });
         }
-        //  generates TOKENS  
 
-        const accessToken = jwt.sign({ id: existingUser._id }, process.env.JWT_ACC_SECRET, { expiresIn: "10d" })
-        const refreshToken = jwt.sign({ id: existingUser._id }, process.env.JWT_REF_SECRET, { expiresIn: "20d" })
-
+        // Generate tokens
+        const accessToken = jwt.sign(
+            { id: existingUser._id },
+            process.env.JWT_ACC_SECRET,
+            { expiresIn: "15m" } // short-lived now
+        );
+        const refreshToken = jwt.sign(
+            { id: existingUser._id },
+            process.env.JWT_REF_SECRET,
+            { expiresIn: "20d" }
+        );
 
         const hashedRef = crypto.createHash('sha256')
             .update(refreshToken)
             .digest('hex');
 
-
         existingUser.isLoggedIn = true;
-        await existingUser.save()
+        await existingUser.save();
 
-        // Check for Existing SESSION 
-
-        const existingSession = await Session.findOne({ userId: existingUser._id })
-        if (existingSession) {
-            await Session.deleteOne({ userId: existingUser._id })
-        }
-
-        //  create new SESSION
+        // Replace any existing session (single-session-per-user model)
+        await Session.findOneAndDelete({ userId: existingUser._id });
 
         await Session.create({
             userId: existingUser._id,
-            refreshToken: hashedRef
+            refreshToken: hashedRef,
+            expiresAt: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000) // 20 days
+        });
 
-        })
+        // Refresh token → httpOnly cookie (JS can't read it, browser auto-sends it)
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+            sameSite: "strict", // or "none" if frontend/backend are on different domains
+            maxAge: 20 * 24 * 60 * 60 * 1000
+        });
+
         return res.status(200).json({
             success: true,
-            message: `Kidann  ${existingUser.firstName}`,
+            message: `Welcome ${existingUser.firstName}`,
             user: existingUser,
-            accessToken,
-            refreshToken
-        })
+            accessToken // only the access token goes in the JSON body
+        });
 
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: error.message
-        })
+        });
     }
-
-}
+};
 
 export const googleLogin = async (req, res) => {
     try {
@@ -266,12 +273,12 @@ export const googleLogin = async (req, res) => {
 
         if (!user) {
             user = await User.create({
-                firstName:  given_name,
-                lastName:   family_name,
+                firstName: given_name,
+                lastName: family_name,
                 email,
-                googleId:   sub,
+                googleId: sub,
                 isVerified: true,
-                password:   null,
+                password: null,
             });
         }
 
@@ -316,15 +323,26 @@ export const googleLogin = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-
     try {
-        const userId = req.user.id;
-        await Session.deleteMany({ userId })
-        await User.findByIdAndUpdate(userId, { isLoggedIn: false })
+        const incomingRefreshToken = req.cookies?.refreshToken;
+
+        if (incomingRefreshToken) {
+            const hashedIncoming = crypto.createHash('sha256')
+                .update(incomingRefreshToken)
+                .digest('hex');
+
+            await Session.findOneAndDelete({ refreshToken: hashedIncoming });
+        }
+
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict"
+        });
 
         return res.status(200).json({
             success: true,
-            message: "User Logged out Successfully"
+            message: "Logged out successfully"
         });
     } catch (error) {
         return res.status(500).json({
@@ -332,7 +350,6 @@ export const logout = async (req, res) => {
             message: error.message
         });
     }
-
 };
 
 export const forgotPassword = async (req, res) => {
@@ -486,10 +503,10 @@ export const updateUser = async (req, res) => {
 
     try {
         const userIdToUpdate = req.params.id; // id of the user we want to update
-        console.log('userIdToUpdate', userIdToUpdate);
+        // console.log('userIdToUpdate', userIdToUpdate);
 
         const loggedInUser = req.user // from auth middleware 
-        console.log("REQ body", req.body);
+        // console.log("REQ body", req.body);
 
         const { firstName, lastName, email, address, zipCode, city, phoneNumber, role } = req.body
 
@@ -563,4 +580,64 @@ export const updateUser = async (req, res) => {
         });
     }
 
+};
+
+export const refresh = async (req, res) => {
+    try {
+        const incomingRefreshToken = req.cookies?.refreshToken;
+
+        if (!incomingRefreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "No refresh token provided"
+            });
+        }
+
+        // 1. Verify JWT signature + expiry
+        let decoded;
+        try {
+            decoded = jwt.verify(incomingRefreshToken, process.env.JWT_REF_SECRET);
+        } catch (err) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid or expired refresh token"
+            });
+        }
+
+        // 2. Check it matches what's stored server-side (hashed)
+        const hashedIncoming = crypto.createHash('sha256')
+            .update(incomingRefreshToken)
+            .digest('hex');
+
+        const session = await Session.findOne({
+            userId: decoded.id,
+            refreshToken: hashedIncoming
+        });
+
+        if (!session) {
+            // Token was valid JWT but not the one on file → possible reuse/theft
+            return res.status(401).json({
+                success: false,
+                message: "Session not found, please login again"
+            });
+        }
+
+        // 3. Issue a new access token
+        const newAccessToken = jwt.sign(
+            { id: decoded.id },
+            process.env.JWT_ACC_SECRET,
+            { expiresIn: "15m" }
+        );
+
+        return res.status(200).json({
+            success: true,
+            accessToken: newAccessToken
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
 };

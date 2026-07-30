@@ -12,6 +12,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { setUser } from '@/Redux/userSlice'
+import AxiosInstance from '@/Api/AxiosInstance' 
+
 // import photo from '../assets/icon-7797704_1280.png'
 
 
@@ -99,13 +101,8 @@ const Profile = () => {
             // console.log("Form Data = ", formData);
 
             const accessToken = localStorage.getItem("accessToken")
-            const response = await axios.post(`http://localhost:3000/api/user/updateProfile/${id}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data", // 👈 CRITICAL: Tells server it contains files
-                    Authorization: `Bearer ${accessToken}`
-
-
-                },
+            const response = await AxiosInstance.post(`/user/updateProfile/${id}`, formData, {
+                
             });
 
             if (response.data?.success) {

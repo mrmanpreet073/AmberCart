@@ -7,6 +7,7 @@ import axios from 'axios';
 import { setUser } from '@/Redux/userSlice.js';
 import { store } from '@/Redux/store';
 import { setAddresses, setCart, setProduct, setSelectedAddress } from '@/Redux/productSice';
+import AxiosInstance from '@/Api/AxiosInstance';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Mobile drawer state
@@ -71,7 +72,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/user/logout", {}, {
+      const response = await AxiosInstance.post("/user/logout", {}, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -87,7 +88,7 @@ export default function Navbar() {
         dispatch(setProduct(null))
 
         // console.log(store.getState());
-        toast(response.data.message)
+        toast.success(response.data.message)
       }
     } catch (error) {
       toast.error(error.response?.data.message)

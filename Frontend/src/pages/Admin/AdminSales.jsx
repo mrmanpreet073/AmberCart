@@ -17,6 +17,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import AxiosInstance from "@/Api/AxiosInstance";
 
 const AdminSales = () => {
   const [dashboard, setDashboard] = useState(null);
@@ -28,14 +29,8 @@ const AdminSales = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(
-        "http://localhost:3000/api/orders/getDashboard",
-
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
+      const response = await AxiosInstance.get(
+        "/orders/getDashboard"
       );
 
       if (response.data.success) {

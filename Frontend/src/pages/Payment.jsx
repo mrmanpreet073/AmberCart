@@ -119,12 +119,12 @@ const Payment = () => {
 
                         {/* green buttons */}
                         <div className="flex flex-col gap-2.5 pt-1">
-                            <button
+                            {/* <button
                                 onClick={() => navigate("/orders")}
                                 className="w-full h-11 bg-green-500 hover:bg-green-600 active:scale-[0.99] text-white font-semibold rounded-xl shadow-sm shadow-green-200 transition-all duration-200"
                             >
                                 View My Orders
-                            </button>
+                            </button> */}
                             <button
                                 onClick={() => navigate("/products")}
                                 className="w-full h-11 bg-white hover:bg-green-50 border border-green-200 text-green-700 font-semibold rounded-xl transition-all duration-200"

@@ -1,3 +1,4 @@
+import AxiosInstance from "@/Api/AxiosInstance";
 import axios from "axios";
 import { ArrowLeftCircleIcon, Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -22,14 +23,10 @@ const UserInfo = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/user/getUserById/${userId}`,
+      const response = await AxiosInstance.post(
+        `/user/getUserById/${userId}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
+        
       );
 
       if (response.data.success) {
@@ -63,14 +60,10 @@ const UserInfo = () => {
     console.log("before axios");
     try {
       setIsLoading(true)
-      const response = await axios.post(
-        `http://localhost:3000/api/user/updateProfile/${userId}`,
+      const response = await AxiosInstance.post(
+        `/user/updateProfile/${userId}`,
         data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
+       
       );
 
 
@@ -78,7 +71,7 @@ const UserInfo = () => {
       console.log(response);
 
       if (response.data.success) {
-        toast("User Updated SuccessFully")
+        toast.success("User Updated SuccessFully")
         const userData = response.data.user;
 
         setUser(userData);

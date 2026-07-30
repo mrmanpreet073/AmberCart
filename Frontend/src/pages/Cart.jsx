@@ -1,3 +1,4 @@
+import AxiosInstance from '@/Api/AxiosInstance';
 import { removeFromCart, setCart } from '@/Redux/productSice';
 import axios from 'axios';
 import { IndianRupee, ShoppingCart, Trash2 } from 'lucide-react';
@@ -22,10 +23,10 @@ const Cart = () => {
 
   const updateQuantity = async (productId, type) => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/cart/update",
+      const res = await AxiosInstance.post(
+        "/cart/update",
         { productId, type },
-        { headers: { Authorization: `Bearer ${accessToken}` } }
+        
       );
       if (res.data.success) fetchLatestCart();
     } catch (error) {

@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Loader2, CheckCircle2, XCircle } from 'lucide-react'
+import AxiosInstance from '@/Api/AxiosInstance';
+
 
 const VerifyEmail = () => {
     const [status, setStatus] = useState("Verifying...")
@@ -12,11 +14,7 @@ const VerifyEmail = () => {
 
     const verifyEmail = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/api/user/verify", {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await AxiosInstance.post("/user/verify", {});
 
             if (response.data.success) {
                 setStatus("✅ Email verified successfully");

@@ -1,3 +1,4 @@
+import AxiosInstance from '@/Api/AxiosInstance';
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
@@ -10,14 +11,8 @@ const AdminOrders = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(
-        "http://localhost:3000/api/orders/getOrders",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await AxiosInstance.get("/orders/getOrders",);
+      console.log("Orders response",response);
 
       if (response.data.success) {
         const sorted = [...response.data.orders].sort(
@@ -36,15 +31,20 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
+  // console.log("Orders:", orders);
+
   return (
     <>
       <div className="space-y-6">
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition"
-          >
-            {/* Header */}
+        { orders.length === 0 ? (
+          <p className="text-center text-gray-500">No orders found.</p>
+        ) : (
+          orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition"
+            >
+              {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-5 border-b border-amber-100">
               <div>
                 <h2 className="font-semibold text-lg text-amber-700">
@@ -222,7 +222,8 @@ const AdminOrders = () => {
               </select>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
     </>
   )

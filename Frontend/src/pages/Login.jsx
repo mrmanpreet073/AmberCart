@@ -18,6 +18,8 @@ import { toast } from 'sonner'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Redux/userSlice'
 
+import AxiosInstance from '@/Api/AxiosInstance'
+
 // ✅ NEW — import Google OAuth hook and provider
 import { useGoogleLogin } from '@react-oauth/google'
 
@@ -37,9 +39,11 @@ const Login = () => {
   // ── Normal login (unchanged) ──
   async function onSubmit(data) {
     setLoading(true)
+
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", data, {
-        headers: { "Content-Type": "application/json" }
+      const response = await AxiosInstance.post("/user/login", data, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true   // ← lets the browser accept/store the httpOnly refresh cookie
       })
       if (response.data.success) {
         localStorage.setItem("accessToken", response.data.accessToken)
@@ -64,8 +68,8 @@ const Login = () => {
       setGoogleLoading(true)
       try {
         // ✅ NEW — send Google's token to your backend
-        const res = await axios.post(
-          "http://localhost:3000/api/user/google",
+        const res = await AxiosInstance.post(
+          "/user/google",
           { token: tokenResponse.access_token },
           { withCredentials: true } // needed for httpOnly cookie (refreshToken)
         )
@@ -93,12 +97,12 @@ const Login = () => {
 
   return (
     <div>
-      <div
+      {/* <div
         onClick={() => navigate("/")}
-        className='text-amber-700 flex gap-2 font-bold bg-[#FDFBF7] p-3 cursor-pointer'
+        className='text-amber-700 flex gap-2 font-bold bg-[#FDFBF7] px-8 py-3 cursor-pointer'
       >
         <ArrowLeftCircleIcon /> <p>Back</p>
-      </div>
+      </div> */}
 
       <div className='flex justify-center items-center bg-[#FDFBF7] min-h-screen'>
         <Card className="w-full max-w-sm bg-white text-stone-700 border-stone-200/80 shadow-xl shadow-stone-100 mx-4">

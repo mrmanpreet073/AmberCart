@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import BreadCrum from "@/app Components/overView/BreadCrum";
 import IImgGallary from "@/app Components/overView/IImgGallary";
 import ProductDesc from "@/app Components/overView/ProductDesc";
+import AxiosInstance from "@/Api/AxiosInstance";
 
 const ProductOverview = () => {
     const { cart } = useSelector((state) => state.product);
@@ -18,13 +19,14 @@ const ProductOverview = () => {
         try {
             setLoading(true);
 
-            const { data } = await axios.get(
-                `http://localhost:3000/api/product/product/${id}`
+            const { data } = await AxiosInstance.get(
+                `/product/product/${id}`
             );
 
             if (data.success) {
                 setProduct(data.product);
             }
+
         } catch (error) {
             console.error("Error fetching product:", error.response);
         } finally {

@@ -56,8 +56,8 @@ export const createOrder = async (req, res) => {
         res.status(500).json({
             message: err.message
         });
-        console.error("Error creating order:", err);
-        console.error("amount:", req.body.amount);
+        // console.error("Error creating order:", err);
+        // console.error("amount:", req.body.amount);
 
     }
 
@@ -129,7 +129,7 @@ export const verifyPayment = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Verify Payment Error:", error);
+        // console.error("Verify Payment Error:", error);
 
         return res.status(500).json({
             success: false,

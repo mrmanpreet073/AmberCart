@@ -6,6 +6,7 @@ import cors from "cors"
 import productRouter from "./Module/Product/Routes/product.routes.js";
 import cartRouter from "./Module/Product/Routes/cart.routes.js";
 import OrderRouter from "./Module/Product/Routes/order.route.js";
+import cookieParser from "cookie-parser";
 
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(cookieParser());
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 

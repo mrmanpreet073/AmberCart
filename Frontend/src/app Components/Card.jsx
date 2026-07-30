@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { setCart } from '@/Redux/productSice.js';
+import AxiosInstance from "@/Api/AxiosInstance";
 
 
 const Card = ({ product, isLoading }) => {
@@ -18,11 +19,7 @@ const Card = ({ product, isLoading }) => {
     const addToCart = async (productId) => {
 
         try {
-            const res = await axios.post(`http://localhost:3000/api/cart/add`, { productId }, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
+            const res = await AxiosInstance.post(`/cart/add`, { productId })
             // console.log("response", res);
 
             if (res.data.success) {

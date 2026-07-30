@@ -37,6 +37,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form";
 import { toast } from 'sonner';
+import AxiosInstance from '@/Api/AxiosInstance';
 
 
 
@@ -86,8 +87,8 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "http://localhost:3000/api/product/allProducts"
+      const response = await AxiosInstance.get(
+        "/product/allProducts"
       );
       // console.log("Response", response);
       if (response.data.success) {
@@ -194,15 +195,10 @@ const AdminProducts = () => {
   const updateProduct = async (formData, reset, productId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `http://localhost:3000/api/product/updateProduct/${productId}`,
+      const response = await AxiosInstance.post(
+        `/product/updateProduct/${productId}`,
         formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
+      )
       console.log(response);
 
       if (response.data.success) {
@@ -286,7 +282,7 @@ const AdminProducts = () => {
         toast.success("Product Deleted Successfully")
         dispatch(removeFromCart(productId));
         setDeleteOpen(false);
-        
+
       }
 
     } catch (error) {
@@ -350,9 +346,9 @@ const AdminProducts = () => {
                       alt={product?.productName || "Product"}
                       className=" h-20 w-20 p-1  bg-stone-50 border border-stone-100 rounded-xl"
                     />
-                      <div className="text-base font-extrabold text-amber-700">
-                    ₹{product?.productPrice?.toLocaleString('en-IN')}
-                  </div>
+                    <div className="text-base font-extrabold text-amber-700">
+                      ₹{product?.productPrice?.toLocaleString('en-IN')}
+                    </div>
                   </div>
 
                   {/* Meta details segment text fields */}
@@ -368,7 +364,7 @@ const AdminProducts = () => {
 
                 {/* Pricing & Control Action block adjustments right align row */}
                 <div className="flex sm:flex-row items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-t-0 border-stone-100 pt-3 sm:pt-0 shrink-0">
-                
+
 
                   {/* Control Action Buttons Panel wrapper */}
                   <div className="flex items-center gap-4 justify-between w-full">

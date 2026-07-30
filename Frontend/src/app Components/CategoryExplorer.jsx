@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Star, Zap, Shirt, Dumbbell } from 'lucide-react';
+import AxiosInstance from '@/Api/AxiosInstance';
 
 // ── Skeleton loader for cards ──
 const SkeletonCard = () => (
@@ -93,7 +94,7 @@ export default function CategoryExplorer() {
         const fetchHomepage = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get("http://localhost:3000/api/product/homepage");
+                const res = await AxiosInstance.get("/product/homepage");
                 if (res.data.success) {
                     setSections(res.data.sections);
                 }

@@ -14,6 +14,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { useNavigate } from 'react-router-dom';
+import AxiosInstance from '@/Api/AxiosInstance';
 
 
 const Address = () => {
@@ -49,8 +50,8 @@ const Address = () => {
 
     const fetchAddress = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/user/getAddress/${user._id}`,
-                { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } }
+            const response = await AxiosInstance.get(`/user/getAddress/${user._id}`,
+
 
             )
             if (response.data.success) {
@@ -67,8 +68,7 @@ const Address = () => {
     const onSubmit = async (data) => {
         try {
             if (isEditingEnable && editingAddress) {
-                const response = await axios.post(`http://localhost:3000/api/user/updateAddress/${editngAddressId}`, data,
-                    { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } }
+                const response = await AxiosInstance.post(`/user/updateAddress/${editngAddressId}`, data,
 
                 )
                 if (response.data.success) {
@@ -78,8 +78,8 @@ const Address = () => {
                 }
             }
             else {
-                const response = await axios.post(`http://localhost:3000/api/user/addAddress/${user._id}`, data,
-                    { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } }
+                const response = await AxiosInstance.post(`/user/addAddress/${user._id}`, data,
+                    
                 )
                 if (response.data.success) {
                     toast.success("Address Added Successfully")

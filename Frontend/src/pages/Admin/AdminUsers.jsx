@@ -1,3 +1,4 @@
+import AxiosInstance from '@/Api/AxiosInstance'
 import axios from 'axios'
 import { Edit, Edit2, Edit3, Search } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -10,13 +11,8 @@ const AdminUsers = () => {
 
   const getAllUsers = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/user/allUsers",
-        {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-
-        },
-      }
+      const response = await AxiosInstance.post("/user/allUsers",
+        {},
       )
       if (response.data.success) {
         setUsers(response.data.users)

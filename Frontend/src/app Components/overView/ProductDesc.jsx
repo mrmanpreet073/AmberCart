@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { setCart } from '@/Redux/productSice';
+import AxiosInstance from '@/Api/AxiosInstance';
 
 const ProductDesc = ({ product }) => {
   const accessToken = localStorage.getItem('accessToken')
@@ -15,11 +16,7 @@ const ProductDesc = ({ product }) => {
   const addToCart = async (productId) => {
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/cart/add`, { productId }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
+      const res = await AxiosInstance.post(`/cart/add`, { productId }, )
       // console.log("response", res);
 
       if (res.data.success) {

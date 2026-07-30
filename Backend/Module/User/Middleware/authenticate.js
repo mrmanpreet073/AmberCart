@@ -27,14 +27,14 @@ export const authenticate = async (req, res, next) => {
 
         } catch (error) {
             if (error.name === "TokenExpiredError") {
-                return res.status(400).json({
+                return res.status(401).json({
                     success: false,
                     message: "Token Expired"
                 })
             }
-            console.log(error);
+            console.log(error.response);
 
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
                 message: "Token Verification Failed"
             })
