@@ -47,6 +47,7 @@ const Login = () => {
       })
       if (response.data.success) {
         localStorage.setItem("accessToken", response.data.accessToken)
+        localStorage.setItem("refreshToken", response.data.refreshToken)
         toast(response.data.message, {
           icon: <CircleCheckBigIcon className='text-emerald-600' />
         })
@@ -77,7 +78,7 @@ const Login = () => {
         if (res.data.success) {
           // ✅ NEW — same as normal login — save token and user
           localStorage.setItem("accessToken", res.data.accessToken)
-          localStorage.setItem("refreshToken", res.data.refreshToken)
+          // localStorage.setItem("refreshToken", res.data.refreshToken)
           dispatch(setUser(res.data.user))
           toast(res.data.message, {
             icon: <CircleCheckBigIcon className='text-emerald-600' />
