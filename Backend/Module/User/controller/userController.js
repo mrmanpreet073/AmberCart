@@ -234,18 +234,19 @@ export const login = async (req, res) => {
         });
 
         // Refresh token → httpOnly cookie (JS can't read it, browser auto-sends it)
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-            sameSite: "none",
-            maxAge: 20 * 24 * 60 * 60 * 1000
-        });
+        // res.cookie("refreshToken", refreshToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+        //     sameSite: "none",
+        //     maxAge: 20 * 24 * 60 * 60 * 1000
+        // });
 
         return res.status(200).json({
             success: true,
             message: `Welcome ${existingUser.firstName}`,
             user: existingUser,
-            accessToken // only the access token goes in the JSON body
+            accessToken, // only the access token goes in the JSON body
+            refreshToken
         });
 
     } catch (error) {
@@ -334,11 +335,12 @@ export const logout = async (req, res) => {
             await Session.findOneAndDelete({ refreshToken: hashedIncoming });
         }
 
-        res.clearCookie("refreshToken", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict"
-        });
+        // res.clearCookie("refreshToken", {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "none"
+        // });
+        localStorage.removeItem("refreshToken");
 
         return res.status(200).json({
             success: true,
@@ -587,7 +589,8 @@ export const refresh = async (req, res) => {
 
         console.log("Cookies:", req.cookies);
         console.log("Headers:", req.headers.cookie);
-        const incomingRefreshToken = req.cookies?.refreshToken;
+        // const incomingRefreshToken = req.cookies?.refreshToken;
+        const incomingRefreshToken = req.body.refreshToken;
 
         if (!incomingRefreshToken) {
             return res.status(401).json({

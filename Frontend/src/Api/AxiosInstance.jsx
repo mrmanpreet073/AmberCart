@@ -50,7 +50,12 @@ AxiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await AxiosInstance.post("/user/refresh");
+        // const { data } = await AxiosInstance.post("/user/refresh");
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        const { data } = await AxiosInstance.post("/user/refresh", {
+          refreshToken,
+        });
         const newAccessToken = data.accessToken;
 
         localStorage.setItem("accessToken", newAccessToken);
@@ -63,6 +68,8 @@ AxiosInstance.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         localStorage.removeItem("accessToken");
+        //  localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         window.location.href = "/login"; // refresh failed too → force re-login
         return Promise.reject(refreshError);
       } finally {

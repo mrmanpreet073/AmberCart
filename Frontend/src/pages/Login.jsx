@@ -77,6 +77,7 @@ const Login = () => {
         if (res.data.success) {
           // ✅ NEW — same as normal login — save token and user
           localStorage.setItem("accessToken", res.data.accessToken)
+          localStorage.setItem("refreshToken", res.data.refreshToken)
           dispatch(setUser(res.data.user))
           toast(res.data.message, {
             icon: <CircleCheckBigIcon className='text-emerald-600' />
