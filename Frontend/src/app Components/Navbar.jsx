@@ -72,15 +72,12 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await AxiosInstance.post("/user/logout", {}, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
+      const response = await AxiosInstance.post("/user/logout",)
       if (response.data.success) {
 
         dispatch(setUser(null))
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         dispatch(setUser(null));
         dispatch(setCart({ items: [], totalPrice: 0 }));
         dispatch(setAddresses([]));

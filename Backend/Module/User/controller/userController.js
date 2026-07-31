@@ -340,7 +340,7 @@ export const logout = async (req, res) => {
         //     secure: process.env.NODE_ENV === "production",
         //     sameSite: "none"
         // });
-        localStorage.removeItem("refreshToken");
+        // localStorage.removeItem("refreshToken");
 
         return res.status(200).json({
             success: true,
