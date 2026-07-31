@@ -629,7 +629,7 @@ export const refresh = async (req, res) => {
         const newAccessToken = jwt.sign(
             { id: decoded.id },
             process.env.JWT_ACC_SECRET,
-            { expiresIn: "15m" }
+            { expiresIn: "5m" }
         );
 
         return res.status(200).json({
