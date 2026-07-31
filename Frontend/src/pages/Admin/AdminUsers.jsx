@@ -36,7 +36,7 @@ const AdminUsers = () => {
     <>
     <div className='text-center '>
       <h1 className='text-2xl font-bold font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-800 to-amber-300 '>User Management</h1>
-      <div className='flex justify-center items-center  py-2 '>
+      {/* <div className='flex justify-center items-center  py-2 '>
         <input type="text" 
         placeholder='Search....'
         className='bg-white border h-9 rounded-s-md focus:outline-none '/>
@@ -45,7 +45,7 @@ const AdminUsers = () => {
           size={19.5}
           className=' '/>
         </div>
-      </div>
+      </div> */}
     </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-2">
         {users?.map((user) => (

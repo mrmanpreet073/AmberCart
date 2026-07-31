@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000
 
 
 // Allow requests from your React app
+app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://amber-cart.vercel.app"], // Vite default port and deployed URL
@@ -21,7 +22,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser());
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 

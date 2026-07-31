@@ -209,7 +209,7 @@ export const login = async (req, res) => {
         const accessToken = jwt.sign(
             { id: existingUser._id },
             process.env.JWT_ACC_SECRET,
-            { expiresIn: "5m" } // short-lived now
+            { expiresIn: "3m" } // short-lived now
         );
         const refreshToken = jwt.sign(
             { id: existingUser._id },
@@ -237,7 +237,7 @@ export const login = async (req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-            sameSite: "none", 
+            sameSite: "none",
             maxAge: 20 * 24 * 60 * 60 * 1000
         });
 
@@ -584,6 +584,9 @@ export const updateUser = async (req, res) => {
 
 export const refresh = async (req, res) => {
     try {
+
+        console.log("Cookies:", req.cookies);
+        console.log("Headers:", req.headers.cookie);
         const incomingRefreshToken = req.cookies?.refreshToken;
 
         if (!incomingRefreshToken) {
