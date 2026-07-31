@@ -237,7 +237,7 @@ export const login = async (req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-            sameSite: "strict", // or "none" if frontend/backend are on different domains
+            sameSite: "none", 
             maxAge: 20 * 24 * 60 * 60 * 1000
         });
 
