@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { setUser } from '@/Redux/userSlice'
-import AxiosInstance from '@/Api/AxiosInstance' 
+import AxiosInstance from '@/Api/AxiosInstance'
 
 // import photo from '../assets/icon-7797704_1280.png'
 
@@ -340,7 +340,7 @@ const Profile = () => {
                     {/* TAB CONTENT 2: INCOMING PURCHASE METRICS */}
                     <TabsContent value="analytics" className="focus-visible:outline-none">
                         <Card className="border border-stone-200/60 shadow-none rounded-2xl bg-stone-50/50">
-                           {orders.length > 0 ?   <div className="space-y-4">
+                            {orders.length > 0 ? <div className="space-y-4">
                                 {orders.map((order) => (
                                     <div
                                         key={order._id}
@@ -359,17 +359,17 @@ const Profile = () => {
                                             </div>
                                             <div className='flex gap-2 text-gray-400'>
                                                 <span>Payment</span>
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-medium
                                                             ${order.status === "Pending"
-                                                        ? "bg-yellow-100 text-yellow-700"
-                                                        : order.status === "Paid"
-                                                            ? "bg-green-100 text-green-700"
-                                                            : "bg-red-100 text-red-700"
-                                                    }`}
-                                            >
-                                                {order.status}
-                                            </span></div>
+                                                            ? "bg-yellow-100 text-yellow-700"
+                                                            : order.status === "Paid"
+                                                                ? "bg-green-100 text-green-700"
+                                                                : "bg-red-100 text-red-700"
+                                                        }`}
+                                                >
+                                                    {order.status}
+                                                </span></div>
                                         </div>
 
                                         {/* Products */}
@@ -410,16 +410,18 @@ const Profile = () => {
                                                     ₹{order.amount.toLocaleString("en-IN")}
                                                 </p>
                                             </div>
-
-                                            <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm transition">
+                                            <div>
+                                                .....
+                                            </div>
+                                            {/* <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm transition">
                                                 View Details
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 ))}
-                            </div>:<div className='px-4 font-medium text-amber-700 '>No orders found</div>}
-                           
-                          
+                            </div> : <div className='px-4 font-medium text-amber-700 '>No orders found</div>}
+
+
                         </Card>
                     </TabsContent>
 
