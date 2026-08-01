@@ -1,33 +1,34 @@
 // utils/email.js
-import * as Brevo from "@getbrevo/brevo";
+// utils/email.js
+import { BrevoClient } from "@getbrevo/brevo";
 
+// Initialize Brevo Client
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
+});
 
-
-console.log("Brevo keys:", Object.keys(Brevo));
-console.log("transactionalEmails:", Brevo.transactionalEmails);
-// initialize Brevo API client
-// const apiInstance = new Brevo.TransactionalEmailsApi();
-// apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
-
-// ── Base send function ──
+// Base send function
 const sendEmail = async (to, subject, html) => {
-    const emailData = {
-        sender: {
-            name:  process.env.SMTP_FROM_NAME,
-            email: process.env.SMTP_FROM_EMAIL,  // your Gmail as sender
+  try {
+    const response = await brevo.transactionalEmails.sendTransacEmail({
+      sender: {
+        name: process.env.SMTP_FROM_NAME,
+        email: process.env.SMTP_FROM_EMAIL,
+      },
+      to: [
+        {
+          email: to,
         },
-        to: [{ email: to }],
-        subject,
-        htmlContent: html,
-    };
+      ],
+      subject,
+      htmlContent: html,
+    });
 
-    try {
-        await apiInstance.sendTransacEmail(emailData);
-        console.log("Email sent successfully to:", to);
-    } catch (error) {
-        console.log("Brevo email error:", error?.response?.body || error.message);
-        throw new Error(error.message);
-    }
+    console.log("Email sent successfully:", response);
+  } catch (error) {
+    console.error("Brevo Error:", error);
+    throw error;
+  }
 };
 
 // ── Verification email ──
