@@ -1,6 +1,8 @@
 import { Mail, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyEmail() {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white border border-stone-200/80 rounded-2xl shadow-xl shadow-stone-100 p-8 text-center">
@@ -37,13 +39,13 @@ export default function VerifyEmail() {
 
         {/* Actions */}
         <div className="space-y-3">
-          <button className="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-medium shadow-sm shadow-amber-600/10 transition-all">
+          <button onClick={()=>(navigate("/"))} className="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-medium shadow-sm shadow-amber-600/10 transition-all">
             I've Verified My Email
           </button>
 
-          <button className="w-full py-3 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 font-medium transition-all">
+          {/* <button className="w-full py-3 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 font-medium transition-all">
             Resend Verification Email
-          </button>
+          </button> */}
         </div>
 
         {/* Footer */}
