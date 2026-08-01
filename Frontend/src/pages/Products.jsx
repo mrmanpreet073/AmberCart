@@ -353,7 +353,7 @@ const [searchParams] = useSearchParams();
 
                     {/* Grid */}
                     {isLoading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 mx-3">
                             {Array.from({ length: LIMIT }).map((_, i) => <SkeletonCard className="w-35" key={i} />)}
                         </div>
                     ) : products.length === 0 ? (
