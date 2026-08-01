@@ -3,11 +3,11 @@ import * as Brevo from "@getbrevo/brevo";
 
 
 
-console.log(Brevo.transactionalEmails);
-
+console.log("Brevo keys:", Object.keys(Brevo));
+console.log("transactionalEmails:", Brevo.transactionalEmails);
 // initialize Brevo API client
-const apiInstance = new Brevo.TransactionalEmailsApi();
-apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+// const apiInstance = new Brevo.TransactionalEmailsApi();
+// apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
 // ── Base send function ──
 const sendEmail = async (to, subject, html) => {
