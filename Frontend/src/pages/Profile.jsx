@@ -101,9 +101,7 @@ const Profile = () => {
             // console.log("Form Data = ", formData);
 
             const accessToken = localStorage.getItem("accessToken")
-            const response = await AxiosInstance.post(`/user/updateProfile/${id}`, formData, {
-                
-            });
+            const response = await AxiosInstance.post(`/user/updateProfile/${id}`, formData,);
 
             if (response.data?.success) {
                 console.log("Response", response.data.user);
@@ -134,12 +132,7 @@ const Profile = () => {
             setLoading(true);
 
             const response = await AxiosInstance.post(
-                "http://localhost:3000/api/orders/getUserOrders", {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                    },
-                }
+                "/orders/getUserOrders",
             );
             console.log(response);
 
