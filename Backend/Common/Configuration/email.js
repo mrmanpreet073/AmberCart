@@ -1,6 +1,10 @@
 // utils/email.js
 import * as Brevo from "@getbrevo/brevo";
 
+
+
+console.log(Brevo);
+
 // initialize Brevo API client
 const apiInstance = new Brevo.TransactionalEmailsApi();
 apiInstance.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
