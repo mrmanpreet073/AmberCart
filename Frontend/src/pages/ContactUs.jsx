@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, Instagram, X, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Share2, AtSign, MessageCircle } from "lucide-react";
 
 const ContactUs = () => {
     return (
@@ -95,9 +95,9 @@ const ContactUs = () => {
                         <h2 className="text-base font-bold text-slate-800 mb-4">Follow Us</h2>
                         <div className="grid grid-cols-3 gap-3">
                             {[
-                                { icon: Instagram, label: "Instagram", handle: "@ambercart", color: "hover:border-pink-300 hover:bg-pink-50" },
-                                { icon: X,   label: "X",   handle: "@ambercart", color: "hover:border-blue-300 hover:bg-blue-50" },
-                                { icon: MessageCircle, label: "WhatsApp", handle: "+91 98765 43210", color: "hover:border-green-300 hover:bg-green-50" },
+                                { icon: AtSign,        label: "Instagram", handle: "@ambercart",      color: "hover:border-pink-300 hover:bg-pink-50" },
+                                { icon: Share2,        label: "Twitter",   handle: "@ambercart",      color: "hover:border-blue-300 hover:bg-blue-50" },
+                                { icon: MessageCircle, label: "WhatsApp",  handle: "+91 98765 43210", color: "hover:border-green-300 hover:bg-green-50" },
                             ].map(({ icon: Icon, label, handle, color }) => (
                                 <div key={label}
                                     className={`flex flex-col items-center gap-2 p-3 border border-slate-100 rounded-xl cursor-pointer transition-all duration-200 ${color}`}
