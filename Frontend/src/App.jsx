@@ -26,6 +26,7 @@ import AdminSales from './pages/Admin/AdminSales.jsx'
 import AdminProducts from './pages/Admin/AdminProducts.jsx'
 import Address from './pages/Address.jsx'
 import Payment from './pages/Payment.jsx'
+import ContactUs from './pages/ContactUs.jsx'
 
 const App = () => {
   return (
@@ -55,7 +56,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/products" element={<Products />} />
-        <Route path="/contactUs" element={<Products />} />
+        <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/product/:id" element={<ProductOverview />} />
         <Route path="/cart" element={<ProtectedRoute><Navbar /><Cart /></ProtectedRoute>} />
         <Route path="/address" element={<ProtectedRoute><Address /></ProtectedRoute>} />
