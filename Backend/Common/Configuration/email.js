@@ -1,5 +1,9 @@
 import nodemailer from "nodemailer";
 
+import dns from "dns";
+
+dns.setDefaultResultOrder("ipv4first");
+
 // SMTP transporter — works with Mailtrap, Gmail, SendGrid, or any SMTP provider
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

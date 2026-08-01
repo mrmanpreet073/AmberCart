@@ -16,6 +16,11 @@ const ProductDesc = ({ product }) => {
   const addToCart = async (productId) => {
 
     try {
+      if (!accessToken) {
+        toast.error("Please login to add product to cart")
+        navigate("/login")
+        return
+      }
       const res = await AxiosInstance.post(`/cart/add`, { productId }, )
       // console.log("response", res);
 

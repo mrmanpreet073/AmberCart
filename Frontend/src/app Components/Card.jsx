@@ -19,6 +19,11 @@ const Card = ({ product, isLoading }) => {
     const addToCart = async (productId) => {
 
         try {
+            if(!accessToken){
+                toast.error("Please login to add product to cart")
+                navigate("/login")
+                return
+            }
             const res = await AxiosInstance.post(`/cart/add`, { productId })
             // console.log("response", res);
 
@@ -29,6 +34,7 @@ const Card = ({ product, isLoading }) => {
                 dispatch(setCart(res.data.cart))
             }
         } catch (error) {
+            toast.error("Failed to add product to cart")
             console.log(error);
 
         }
