@@ -66,17 +66,16 @@ export const register = async (req, res) => {
 export const verify = async (req, res) => {
 
     try {
-        const authHeader = req.headers.authorization;
-        // console.log("authHeader", authHeader);
+        const { token } = req.body;
 
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        if (!token) {
             return res.status(400).json({
                 success: false,
-                message: "Authorization Token is Invalid or Token"
-            })
+                message: "Verification token is required"
+            });
         }
 
-        const token = authHeader.split(" ")[1]
+        // const token = authHeader.split(" ")[1]
 
         let decoded;
 

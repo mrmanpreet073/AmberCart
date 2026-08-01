@@ -14,7 +14,7 @@ const VerifyEmail = () => {
 
     const verifyEmail = async () => {
         try {
-            const response = await AxiosInstance.post("/user/verify", {});
+            const response = await AxiosInstance.post("/user/verify", { token });
 
             if (response.data.success) {
                 setStatus("✅ Email verified successfully");
