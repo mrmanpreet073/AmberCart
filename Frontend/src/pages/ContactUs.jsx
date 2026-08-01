@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, Instagram, Twitter, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Instagram, X, MessageCircle } from "lucide-react";
 
 const ContactUs = () => {
     return (
@@ -96,7 +96,7 @@ const ContactUs = () => {
                         <div className="grid grid-cols-3 gap-3">
                             {[
                                 { icon: Instagram, label: "Instagram", handle: "@ambercart", color: "hover:border-pink-300 hover:bg-pink-50" },
-                                { icon: Twitter,   label: "Twitter",   handle: "@ambercart", color: "hover:border-blue-300 hover:bg-blue-50" },
+                                { icon: X,   label: "X",   handle: "@ambercart", color: "hover:border-blue-300 hover:bg-blue-50" },
                                 { icon: MessageCircle, label: "WhatsApp", handle: "+91 98765 43210", color: "hover:border-green-300 hover:bg-green-50" },
                             ].map(({ icon: Icon, label, handle, color }) => (
                                 <div key={label}
