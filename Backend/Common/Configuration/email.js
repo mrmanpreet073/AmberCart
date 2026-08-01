@@ -3,7 +3,7 @@ import * as Brevo from "@getbrevo/brevo";
 
 
 
-console.log(Brevo);
+console.log(Brevo.transactionalEmails);
 
 // initialize Brevo API client
 const apiInstance = new Brevo.TransactionalEmailsApi();
