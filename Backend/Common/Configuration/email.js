@@ -2,10 +2,12 @@ import nodemailer from "nodemailer";
 
 // SMTP transporter — works with Mailtrap, Gmail, SendGrid, or any SMTP provider
 const transporter = nodemailer.createTransport({
-  service:'gmail',  
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.EMAIL_USER,          // SMTP username
-    pass: process.env.EMAIL_PASS,          // SMTP password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -20,7 +22,7 @@ const sendEmail = async (to, subject, html) => {
 
 const sendVerificationEmail = async (email, token) => {
   const url = `${process.env.CLIENT_URL}/verify-email/${token}`;
-  
+
   const htmlContent = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9fafb; padding: 40px 10px; min-height: 100%;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; overflow: hidden;">
@@ -42,7 +44,7 @@ const sendVerificationEmail = async (email, token) => {
 const sendResetPasswordEmail = async (email, otp) => {
   // Fixed: Changed ${token} to ${otp} to prevent reference errors
   const url = `${process.env.CLIENT_URL}/api/auth/reset-password/${otp}`;
-  
+
   const htmlContent = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9fafb; padding: 40px 10px; min-height: 100%;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; overflow: hidden;">
@@ -65,4 +67,4 @@ const sendResetPasswordEmail = async (email, otp) => {
 
   await sendEmail(email, "Reset your password", htmlContent);
 };
-export{sendVerificationEmail,sendResetPasswordEmail}
+export { sendVerificationEmail, sendResetPasswordEmail }
